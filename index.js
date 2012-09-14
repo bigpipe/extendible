@@ -14,7 +14,7 @@ var ctor = function(){};
 // Helper function to correctly set up the prototype chain, for subclasses.
 // Similar to `goog.inherits`, but uses a hash of prototype properties and
 // class properties to be extended.
-exports.inherits = function inherits(parent, protoProps, staticProps) {
+function inherits(parent, protoProps, staticProps) {
   var child;
 
   // The constructor function for the new subclass is either defined by you
@@ -51,8 +51,11 @@ exports.inherits = function inherits(parent, protoProps, staticProps) {
 };
 
 // The self-propagating extend function that Backbone classes use.
-exports.extend = function extend(protoProps, classProps) {
-  var child = exports.inherits(this, protoProps, classProps);
+module.exports = function extend(protoProps, classProps) {
+  var child = inherits(this, protoProps, classProps);
   child.extend = this.extend;
   return child;
 };
+
+// Also expose the inherits method.
+module.exports.inherits = inherits;
