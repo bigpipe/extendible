@@ -1,6 +1,6 @@
 {
   "name": "extendable",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Extend constructors",
   "main": "index.js",
   "scripts": {
@@ -8,5 +8,8 @@
   },
   "repository": "",
   "author": "Arnout Kazemier",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "underscore": "1.3.x"
+  }
 }
