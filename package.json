@@ -8,8 +8,5 @@
   },
   "repository": "git://github.com/3rd-Eden/extendable.git",
   "author": "Arnout Kazemier",
-  "license": "MIT",
-  "dependencies": {
-    "lodash": "0.7.x"
-  }
+  "license": "MIT"
 }
