@@ -1,12 +1,22 @@
 {
   "name": "extendable",
-  "version": "0.0.3",
-  "description": "Extend constructors",
+  "version": "0.0.4",
+  "description": "Extend constructors using backbone's .extend signature",
+  "keywords": [
+    "backbone",
+    "underscore",
+    "lodash",
+    "extend",
+    "inherit",
+    "inherits"
+  ],
   "main": "index.js",
   "scripts": {
     "test": "node test.js"
   },
   "repository": "git://github.com/3rd-Eden/extendable.git",
   "author": "Arnout Kazemier",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
 }

@@ -39,3 +39,7 @@ var SuperAwesome = Awesomeness.extend({
 new SuperAwesome();
 // outputs "trololo" after 100 ms
 ```
+
+### License
+
+MIT
