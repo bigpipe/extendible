@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict'; <-- Root of all evil, causes thrown errors on readyOnly props.
 
 /**
  * Simple extend function.
