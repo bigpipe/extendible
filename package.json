@@ -1,6 +1,6 @@
 {
   "name": "extendable",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Extend constructors using backbone's .extend signature",
   "keywords": [
     "backbone",
