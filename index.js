@@ -1,4 +1,7 @@
-// 'use strict'; <-- Root of all evil, causes thrown errors on readyOnly props.
+// 'use strict'; //<-- Root of all evil, causes thrown errors on readyOnly props.
+
+var has = Object.prototype.hasOwnProperty
+  , slice = Array.prototype.slice;
 
 /**
  * Copy all readable properties from an Object or function and past them on the
@@ -9,13 +12,19 @@
  * @api private
  */
 function copypaste(obj) {
-  Array.prototype.slice.call(arguments, 1).forEach(function each(source) {
-    if (source) {
-      for (var prop in source) {
-        obj[prop] = source[prop];
-      }
+  var args = slice.call(arguments, 1)
+    , i = 0
+    , prop;
+
+  for (; i < args.length; i++) {
+    if (!args[i]) continue;
+
+    for (prop in args[i]) {
+      if (!has.call(args[i], prop)) continue;
+
+      obj[prop] = args[i][prop];
     }
-  });
+  }
 
   return obj;
 }
@@ -23,12 +32,24 @@ function copypaste(obj) {
 /**
  * A proper mixin function that respects getters and setters.
  *
- * @param {Object} obj The object that should receive all properties
+ * @param {Object} obj The object that should receive all properties.
  * @returns {Object} obj
  * @api private
  */
 function mixin(obj) {
-  Array.prototype.slice.call(arguments, 1).forEach(function forEach(o) {
+  if (
+       'function' !== typeof Object.getOwnPropertyNames
+    || 'function' !== typeof Object.defineProperty
+    || 'function' !== typeof Object.getOwnPropertyDescriptor
+  ) {
+    return copypaste.apply(null, arguments);
+  }
+
+  //
+  // We can safely assume that if the methods we specify above are supported
+  // that it's also save to use Array.forEach for iteration purposes.
+  //
+  slice.call(arguments, 1).forEach(function forEach(o) {
     Object.getOwnPropertyNames(o).forEach(function eachAttr(attr) {
       Object.defineProperty(obj, attr, Object.getOwnPropertyDescriptor(o, attr));
     });
@@ -38,10 +59,14 @@ function mixin(obj) {
 }
 
 /**
- * Backbone.js helper functions, these have been copy-pasted from the backbone.js
- * source code so they can re-used in our application interface.
+ * Original code from Backbone.js helper functions, these have been copy-pasted
+ * from the backbone.js source code so they can re-used in our application
+ * interface.
  *
  * @license MIT, http://backbonejs.org
+ *
+ * But heavily modified to work with ES5 and browsers at the same timeout
+ * without the dependency upon underscore.
  */
 
 //
@@ -56,7 +81,7 @@ module.exports = function extend(protoProps, staticProps) {
   // The constructor function for the new subclass is either defined by you
   // (the "constructor" property in your `extend` definition), or defaulted
   // by us to simply call the parent's constructor.
-  if (protoProps && Object.prototype.hasOwnProperty.call(protoProps, 'constructor')) {
+  if (protoProps && has.call(protoProps, 'constructor')) {
     child = protoProps.constructor;
   } else {
     child = function(){ parent.apply(this, arguments); };
