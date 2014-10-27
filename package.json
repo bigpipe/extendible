@@ -1,6 +1,6 @@
 {
   "name": "extendable",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "description": "Extend constructors using backbone's .extend signature",
   "keywords": [
     "backbone",
@@ -12,11 +12,18 @@
   ],
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "mocha --reporter spec --ui bdd test.js",
+    "watch": "mocha --watch --reporter spec --ui bdd test.js",
+    "coverage": "istanbul cover ./node_modules/.bin/_mocha -- --reporter spec --ui bdd test.js",
+    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec --ui bdd test.js"
   },
   "repository": "git://github.com/3rd-Eden/extendable.git",
   "author": "Arnout Kazemier",
   "license": "MIT",
-  "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "assume": "0.0.x",
+    "istanbul": "0.3.x",
+    "mocha": "2.0.x",
+    "pre-commit": "0.0.x"
+  }
 }
