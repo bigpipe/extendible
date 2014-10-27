@@ -1,4 +1,4 @@
-describe('extendable', function () {
+describe('extendible', function () {
   'use strict';
 
   var assume = require('assume')

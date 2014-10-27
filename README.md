@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/3rd-Eden/extendable.png)](https://travis-ci.org/3rd-Eden/extendable)
 
 ```js
-var extend = require('extendable')
+var extend = require('extendible')
   , EventEmitter = require('events').EventEmitter;
 
 function Awesomeness() {

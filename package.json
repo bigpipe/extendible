@@ -1,14 +1,18 @@
 {
-  "name": "extendable",
+  "name": "extendible",
   "version": "0.1.0",
   "description": "Extend constructors using backbone's .extend signature",
   "keywords": [
     "backbone",
-    "underscore",
-    "lodash",
     "extend",
+    "extendable",
+    "extendible",
+    "extending",
+    "extends",
     "inherit",
-    "inherits"
+    "inherits",
+    "lodash",
+    "underscore"
   ],
   "main": "index.js",
   "scripts": {
