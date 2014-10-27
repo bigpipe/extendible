@@ -1,42 +1,35 @@
-'use strict';
+describe('extendable', function () {
+  'use strict';
 
-var extend = require('./index')
-  , assert = require('assert')
-  , EventEmitter = require('events').EventEmitter;
+  var assume = require('assume')
+    , extend = require('./');
 
-function Awesomeness() {
-  var self = this;
+  it('is exported as function', function () {
+    assume(extend).is.a('function');
+  });
 
-  this.foo = 'foo';
+  it('returns the newly extended function', function () {
+    function foo() {} foo.extend = extend;
 
-  setTimeout(function () {
-    self.render(self.data);
-  }, 100);
+    var bar = foo.extend();
+    assume(bar).does.not.equal(foo);
+  });
 
-  EventEmitter.call(this);
-}
+  it('can override properties and methods', function () {
+    function foo() {} foo.extend = extend;
+    foo.prototype.bar = function () { return true; };
+    foo.prototype.prop = 10;
 
-Awesomeness.prototype = new EventEmitter;
-Awesomeness.prototype.constructor = Awesomeness;
+    var Bar = foo.extend({
+      bar: function () {
+        return false;
+      },
+      prop: 'foo'
+    });
 
-Awesomeness.prototype.data = 'bar';
-Awesomeness.prototype.render = function render() {
-  // does nothing
-};
+    var bar = new Bar();
 
-Awesomeness.extend = extend;
-
-var SuperAwesome = Awesomeness.extend({
-    data: 'trololol'
-
-  , render: function render(data) {
-      assert.ok(this.data === 'trololol');
-      assert.ok(data === 'trololol');
-      assert.ok(this.foo === 'foo');
-
-      console.log(data, this.foo);
-    }
+    assume(bar.bar()).is.false();
+    assume(bar.prop).equals('foo');
+  });
 });
-
-new SuperAwesome();
-// outputs "trololo" after 100 ms
