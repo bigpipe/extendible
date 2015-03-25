@@ -58,6 +58,37 @@ function mixin(obj) {
   return obj;
 }
 
+/**
+ * Detect if a given parent is constructed in strict mode so we can force the
+ * child in to the same mode. It detects the strict mode by accessing properties
+ * on the function that are forbidden in strict mode:
+ *
+ * - `caller`
+ * - `callee`
+ * - `arguments`
+ *
+ * Forcing the a thrown TypeError.
+ *
+ * @param {Function} parent Parent constructor
+ * @returns {Function} The child constructor
+ * @api private
+ */
+function mode(parent) {
+  try {
+    var e = parent.caller || parent.arguments || parent.callee;
+
+    return function child() {
+      return parent.apply(this, arguments);
+    };
+  } catch(e) {}
+
+  return function child() {
+    'use strict';
+
+    return parent.apply(this, arguments);
+  };
+}
+
 //
 // Helper function to correctly set up the prototype chain, for subclasses.
 // Similar to `goog.inherits`, but uses a hash of prototype properties and
@@ -75,9 +106,7 @@ module.exports = function extend(protoProps, staticProps) {
   if (protoProps && has.call(protoProps, 'constructor')) {
     child = protoProps.constructor;
   } else {
-    child = function () {
-      return parent.apply(this, arguments);
-    };
+    child = mode(parent);
   }
 
   //

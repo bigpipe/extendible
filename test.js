@@ -1,6 +1,5 @@
 describe('extendible', function () {
-  'use strict';
-
+  // 'use strict'; // Disabled for strict-mode vs global mode tests;
   var assume = require('assume')
     , extend = require('./')
     , Foo;
@@ -79,5 +78,39 @@ describe('extendible', function () {
 
     assume(baz.my).equals('name is baz');
     assume(bob.my).equals('name is bob');
+  });
+
+  it('runs in strict mode if the parent runs in strict mode', function (next) {
+    next = assume.plan(2, next);
+
+    var Baz = function () {
+      'use strict';
+
+      assume(this).equals(undefined);
+    };
+
+    Baz.extend = extend;
+
+    var Bar = Baz.extend()
+      , bar = Bar()
+      , baz = Baz();
+
+    next();
+  });
+
+  it('runs in does not run in strict mode if the parent isnt', function (next) {
+    next = assume.plan(2, next);
+
+    var Baz = function () {
+      assume(this).equals(global);
+    };
+
+    Baz.extend = extend;
+
+    var Bar = Baz.extend()
+      , bar = Bar()
+      , baz = Baz();
+
+    next();
   });
 });
