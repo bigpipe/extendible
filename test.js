@@ -59,4 +59,25 @@ describe('extendible', function () {
     var override = new Override();
     assume(override.hello).equals('world');
   });
+
+  it('returns the value from the parent constructor', function () {
+    var Baz = function () {
+      return {
+        my: 'name is '+ this.name
+      };
+    };
+
+    Baz.prototype.name = 'baz';
+    Baz.extend = extend;
+
+    var Bob = Baz.extend({
+      name: 'bob'
+    });
+
+    var bob = new Bob()
+      , baz = new Baz();
+
+    assume(baz.my).equals('name is baz');
+    assume(bob.my).equals('name is bob');
+  });
 });
