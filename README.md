@@ -1,6 +1,6 @@
 # Extend your JavaScript constructors in the same as you are used to in backbone.js
 
-[![Build Status](https://travis-ci.org/3rd-Eden/extendable.png)](https://travis-ci.org/3rd-Eden/extendable)
+[![Build Status](https://travis-ci.org/3rd-Eden/extendible.png)](https://travis-ci.org/3rd-Eden/extendible)
 
 ```js
 var extend = require('extendible')
