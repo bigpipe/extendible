@@ -2,25 +2,28 @@ describe('extendible', function () {
   'use strict';
 
   var assume = require('assume')
-    , extend = require('./');
+    , extend = require('./')
+    , Foo;
+
+  beforeEach(function each() {
+    Foo = function Foo() {};
+    Foo.extend = extend;
+  });
 
   it('is exported as function', function () {
     assume(extend).is.a('function');
   });
 
   it('returns the newly extended function', function () {
-    function foo() {} foo.extend = extend;
-
-    var bar = foo.extend();
-    assume(bar).does.not.equal(foo);
+    var Bar = Foo.extend();
+    assume(Bar).does.not.equal(Foo);
   });
 
   it('can override properties and methods', function () {
-    function foo() {} foo.extend = extend;
-    foo.prototype.bar = function () { return true; };
-    foo.prototype.prop = 10;
+    Foo.prototype.bar = function () { return true; };
+    Foo.prototype.prop = 10;
 
-    var Bar = foo.extend({
+    var Bar = Foo.extend({
       bar: function () {
         return false;
       },
@@ -31,5 +34,29 @@ describe('extendible', function () {
 
     assume(bar.bar()).is.false();
     assume(bar.prop).equals('foo');
+  });
+
+  it('correctly inherits and overrides getters', function () {
+    var Bar = Foo.extend({
+      get hello() {
+        return 'hi';
+      }
+    });
+
+    var Baz = Bar.extend({
+      yes: false
+    });
+
+    var bar = new Baz();
+
+    assume(bar.yes).equals(false);
+    assume(bar.hello).equals('hi');
+
+    var Override = Bar.extend({
+      hello: 'world'
+    });
+
+    var override = new Override();
+    assume(override.hello).equals('world');
   });
 });
