@@ -19,6 +19,7 @@ describe('extendible', function () {
   });
 
   it('can override properties and methods', function () {
+    /* istanbul ignore next */
     Foo.prototype.bar = function () { return true; };
     Foo.prototype.prop = 10;
 
